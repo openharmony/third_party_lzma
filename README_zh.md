@@ -1,47 +1,31 @@
 # third_party_lzma
 
-## Description
+## 介绍
 
----
-LZMA SDK provides the documentation, samples, header files,
-libraries, and tools you need to develop applications that
-use 7z / LZMA / LZMA2 / XZ compression.
+LZMA 是著名的LZ77压缩算法的改良版本, 最大化地提高了压缩比率, 保持了高压缩速度和解压缩时较低的内存需要。
 
-LZMA is an improved version of famous LZ77 compression algorithm.
-It was improved in way of maximum increasing of compression ratio,
-keeping high decompression speed and low memory requirements for
-decompressing.
+LZMA2 基于 LZMA, 在压缩过程中提供了更好的多线程支持, 和其他改进优化。
 
-LZMA2 is a LZMA based compression method. LZMA2 provides better
-multithreading support for compression than LZMA and some other improvements.
+7z 是一种数据压缩和文件档案的格式, 是7zip软件的主要文件格式(www.7-zip.org)。
+7z 格式支持不同的压缩方式: LZMA, LZMA2 和其他， 同时也支持基于AES-256的对称加密。
 
-7z is a file format for data compression and file archiving.
-7z is a main file format for 7-Zip compression program (www.7-zip.org).
-7z format supports different compression methods: LZMA, LZMA2 and others.
-7z also supports AES-256 based encryption.
+XZ 是一种使用LZMA2数据压缩的文件格式, XZ格式带有额外的特性: SHA/CRC数据校验, 用于提升压缩比率的filters, 拆分blocks和streams。
 
-XZ is a file format for data compression that uses LZMA2 compression.
-XZ format provides additional features: SHA/CRC check, filters for
-improved compression ratio, splitting to blocks and streams
+## 软件架构
 
----
+软件架构说明
 
-## Software Architecture
-
----
-Source code:
 | format/algorithm  | C | C++ | C# | Java |
 | :------ | :---------| :----- | :----- | :----- |
-| LZMA compression and decompression                |  ✓         | ✓      |  ✓    |  ✓    |
-| LZMA2 compression and decompression               |  ✓         | ✓      |       |        |
-| XZ compression and decompression                  |  ✓         | ✓      |       |        |
-| 7z decompression                                  | ✓          | ✓      |       |        |
-| 7z compression                                    |            | ✓      |       |        |
+| LZMA  压缩和解压缩                                 |  ✓         | ✓      |  ✓    |  ✓    |
+| LZMA2 压缩和解压缩                                 |  ✓         | ✓      |       |        |
+| XZ 压缩和解压缩                                    |  ✓         | ✓      |       |        |
+| 7Z 解压缩                                          | ✓          | ✓      |       |        |
+| 7Z 压缩                                            |            | ✓      |       |        |
 | small SFXs for installers (7z decompression)      |  ✓         |         |       |        |
-| SFXs and SFXs for installers (7z decompression)   |            | ✓      |       |        |
+| SFXs and SFXs for installers (7z decompression)   |             | ✓      |       |        |
 
 ---
-Source code structure
 
 ```bash
 /third_party/lzma
@@ -106,89 +90,69 @@ Source code structure
             └── RangeCoder          # Range Coder (special code of compression/decompression)
 ```
 
----
-
-## NOTICES / LICENSE
+## 证书
 
 LZMA SDK is written and placed in the public domain by Igor Pavlov.
 
 Some code in LZMA SDK is based on public domain code from another developers:
 
   1) PPMd var.H (2001): Dmitry Shkarin
+
   2) SHA-256: Wei Dai (Crypto++ library)
 
 Anyone is free to copy, modify, publish, use, compile, sell, or distribute the
-original LZMA SDK code, either in source code form or as a compiled binary, for
-any purpose, commercial or non-commercial, and by any means.
+original LZMA SDK code, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
 
-LZMA SDK code is compatible with open source licenses, for example, you can
-include it to GNU GPL or GNU LGPL code.
+LZMA SDK code is compatible with open source licenses, for example, you can include it to GNU GPL or GNU LGPL code.
 
-## Build
+## 编译构建
 
-### ***UNIX/Linux version***
+### ***UNIX/Linux***
 
-There are several options to compile 7-Zip with different compilers: gcc and clang.
-Also 7-Zip code contains two versions for some critical parts of code: in C and in Assembler.
-So if you compile the version with Assembler code, you will get faster 7-Zip binary.
+使用gcc和clang编译7-zip有多种选项，同时7-zip代码中两部分重要的代码: C和汇编。如果与汇编代码一起编译版本，会得到更快的7-zip二进制。7-zip的汇编代码遵循不同平台的语法。
 
-7-Zip's assembler code uses the following syntax for different platforms:
+#### *arm64*
 
-#### *arm64: GNU assembler for ARM64 with preprocessor*
-
-That systax of that arm64 assembler code in 7-Zip is supported by GCC and CLANG for ARM64.
+gcc和clang arm64版本支持arm64汇编代码语法。
 
 #### *x86 and x86_64(AMD64)*
 
-There are 2 programs that supports MASM syntax in Linux.
-Asmc Macro Assembler and JWasm. But JWasm now doesn't support some cpu instructions used in 7-Zip.
-So you must install Asmc Macro Assembler in Linux, if you want to compile fastest version of 7-Zip  x86 and x86-64: [https://github.com/nidud/asmc](https://github.com/nidud/asmc)
+Asmc Macro Assembler 和 JWasm 在Linux 系统上都支持MASM语法，但JWasm 不支持一些7-zip中使用的cpu指令。
+如果你想编译更快的7zip，必须在Linux上安装Asmc Macro Assembler [https://github.com/nidud/asmc](https://github.com/nidud/asmc)
 
-### ***Building commands***
+### ***构建命令***
 
-There are different binaries that can be compiled from 7-Zip source.
-There are 2 main files in folder for compiling:
-  makefile        - that can be used for compiling Windows version of 7-Zip with nmake command
-  makefile.gcc    - that can be used for compiling Linux/macOS versions of 7-Zip with make command
+目录中有2两个主要文件用于编译
+  makefile        - 使用nmake命令编译Windows版本的7zip
+  makefile.gcc    - 使用make命令编译Linux/macOs版本的7zip
 
-At first you must change the current folder to folder that contains `makefile.gcc`:
+首先切换到包含 `makefile.gcc`的目录下:
 
 ```bash
     cd CPP/7zip/Bundles/Alone7z
 ```
 
-Then you can compile `makefile.gcc` with the command:
-
 ```bash
     make -j -f makefile.gcc
 ```
 
-Also there are additional "*.mak" files in folder "CPP/7zip/" that can be used to compile
-7-Zip binaries with optimized code and optimzing options.
-
-To compile with GCC without assembler:
+另外在"CPP/7zip/"目录下的"*.mak"文件也可以与优化的代码同时编译，并且带有优化选项。比如:
 
 ```bash
   cd CPP/7zip/Bundles/Alone7z
   make -j -f ../../cmpl_gcc.mak
 ```
 
-Also you can change some compiler options in the mak files:
-  cmpl_gcc.mak
-  var_gcc.mak
-  warn_gcc.mak
+## **接口使用说明**
 
-## Interface Usage
+这部分描述了C语言实现的LZMA编码和解码函数
 
-This section describes LZMA encoding and decoding functions written in C language.
+注意: 你也可以阅读参考 LZMA Specification (lzma-specification.txt from LZMA SDK)
 
-Note: you can read also LZMA Specification (lzma-specification.txt from LZMA SDK)
-
-Also you can look source code for LZMA encoding and decoding:
-
+你也可以查看使用LZMA编码和解码的案例:
   ***C/Util/Lzma/LzmaUtil.c***
 
-### ***LZMA compressed file format***
+### ***LZMA 压缩的文件格式***
 
 ```bash
 Offset Size Description
@@ -198,13 +162,10 @@ Offset Size Description
  13         Compressed data
 ```
 
-ANSI-C LZMA Decoder
+ANSI-C(American National Standards Institue) LZMA Decoder
+请注意ANSI-C的接口在LZMA SDK 4.58版本发生了变更，如果你想使用旧的接口，你可以从sourceforge.net 网站下载之前的LZMA SDK版本。
 
-Please note that interfaces for ANSI-C code were changed in LZMA SDK 4.58.
-If you want to use old interfaces you can download previous version of LZMA SDK
-from sourceforge.net site.
-
-To use ANSI-C LZMA Decoder you need the following files:
+使用 ANSI-C LZMA Decoder需要使用到以下文件:
 
 ```bash
   LzmaDec.h
@@ -214,24 +175,25 @@ To use ANSI-C LZMA Decoder you need the following files:
   Compiler.h
 ```
 
-Look example code:
-  C/Util/Lzma/LzmaUtil.c
+参考案例: C/Util/Lzma/LzmaUtil.c
 
-Memory requirements for LZMA decoding
+LZMA decoding的内存要求
 
-1. Stack usage of LZMA decoding function for local variables is not larger than 200-400 bytes.
-2. LZMA Decoder uses dictionary buffer and internal state structure.
-3. Internal state structure consumes state_size = (4 + (1.5 << (lc + lp))) KB by default (lc=3, lp=0), state_size = 16 KB.
+1. LZMA decoding函数局部变量的栈内存不超过200-400字节
 
-### ***How To decompress data***
+2. LZMA Decoder使用字典缓冲区和内部state结构
 
-LZMA Decoder (ANSI-C version) now supports 2 interfaces:
+3. 内部state结构size消耗state_size = (4 + (1.5 << (lc + lp))) KB by default (lc=3, lp=0), state_size = 16 KB.
 
-**1)** Single-call Decompressing
+### ***如何解压缩***
 
-**2)** Multi-call State Decompressing (zlib-like interface)
+LZMA Decoder (ANSI-C version) 支持一下两种接口:
 
-**You must use external allocator:**
+**1)** 单次调用: LzmaDecode
+
+**2)** 多次调用：LzmaDec_DecodeToBuf(类似于zlib接口)
+
+**你必须自己定义内存分配器:**
 
 Example:
 
@@ -243,12 +205,12 @@ ISzAlloc alloc = { SzAlloc, SzFree };
 
 You can use p = p; operator to disable compiler warnings.
 
-#### ***Single-call Decompressing***
+#### ***单次调用***
 
-1. When to use: RAM->RAM decompressing
-2. Compile files: LzmaDec.h + LzmaDec.c + 7zTypes.h
-3. Compile defines: no defines
-4. Memory Requirements:
+1. 使用场景: RAM->RAM decompressing
+2. 编译文件: LzmaDec.h + LzmaDec.c + 7zTypes.h
+3. 编译宏: 不需要
+4. 内存需要:
 
 - Input buffer: compressed size
 - Output buffer: uncompressed size
@@ -290,35 +252,35 @@ You can use p = p; operator to disable compiler warnings.
     SZ_ERROR_INPUT_EOF - It needs more bytes in input buffer (src).
 ```
 
-  If LZMA decoder sees end_marker before reaching output limit, it returns OK result,
-  and output value of destLen will be less than output buffer size limit.
+如果LZMA decoder 到达在输出缓冲区上限前看到了end_marker, 返回OK,同时输出的destLen的值会比输出缓冲区的上限小。
 
-  You can use multiple checks to test data integrity after full decompression:
+你可以在完全解压缩后使用多重检查数据的完整性:
 
-   1. Check Result and "status" variable.
-   2. Check that output(destLen) = uncompressedSize, if you know real uncompressedSize.
-   3. Check that output(srcLen) = compressedSize, if you know real compressedSize.
-       You must use correct finish mode in that case.
+   1. 检查返回值和status变量
+   2. 如果你已知未压缩的数据大小，检查 output(destLen) = uncompressedSize
+   3. 如果你已知压缩后的数据大小，检查 output(srcLen) = compressedSize
 
-#### ***Multi-call State Decompressing (zlib-like interface)***
+#### ***根据状态多次调用 (类似于zlib接口)***
 
-1. When to use: file->file decompressing
-2. Compile files: LzmaDec.h + LzmaDec.c + 7zTypes.h
-3. Memory Requirements:
+1. 使用场景: file->file decompressing
+2. 编译文件: LzmaDec.h + LzmaDec.c + 7zTypes.h
+3. 内存要求:
 
 - Buffer for input stream: any size (for example, 16 KB)
 - Buffer for output stream: any size (for example, 16 KB)
 - LZMA Internal Structures: state_size (16 KB for default settings)
-- LZMA dictionary (dictionary size is encoded in LZMA properties header)
+- LZMA dictionary (字典大小编码在LZMA properties header中)
 
-**1)** read LZMA properties (5 bytes) and uncompressed size (8 bytes, little-endian) to header:
+使用流程：
+
+**1)** 读取 LZMA properties (5 bytes) and uncompressed size (8 bytes, 小端序) 到 header:
 
 ```c
    unsigned char header[LZMA_PROPS_SIZE + 8];
    ReadFile(inFile, header, sizeof(header)
 ```
 
-**2)** Allocate CLzmaDec structures (state + dictionary) using LZMA properties
+**2)** 使用"LZMA properties"分配创建 CLzmaDec(state + dictionary)
 
 ```c
   CLzmaDec state;
@@ -328,7 +290,7 @@ You can use p = p; operator to disable compiler warnings.
     return res;
 ```
 
-**3)** Init LzmaDec structure before any new LZMA stream. And call LzmaDec_DecodeToBuf in loop
+**3)** 初始化LzmaDec，在循环中调用LzmaDec_DecodeToBuf
 
 ```c
   LzmaDec_Init(&state);
@@ -341,7 +303,7 @@ You can use p = p; operator to disable compiler warnings.
   }
 ```
 
-**4)** Free all allocated structures
+**4)** 释放所有分配的结构
 
 ```c
   LzmaDec_Free(&state, &g_Alloc);
@@ -350,9 +312,9 @@ You can use p = p; operator to disable compiler warnings.
 Look example code:
   C/Util/Lzma/LzmaUtil.c
 
-### ***How To compress data***
+### ***如何压缩数据***
 
-1 Compile files:
+1 编译文件:
 
 ```bash
   7zTypes.h
@@ -366,26 +328,25 @@ Look example code:
   LzHash.h
 ```
 
-2 Memory Requirements:
+2 内存需要:
 
 - (dictSize * 11.5 + 6 MB) + state_size
 
-3 Lzma Encoder can use two memory allocators:
+Lzma Encoder 可使用两种内存分配器:
 
 - alloc - for small arrays.
 - allocBig - for big arrays.
 
-For example, you can use Large RAM Pages (2 MB) in allocBig allocator for better compression speed. Note that Windows has bad implementation for Large RAM Pages.
-It's OK to use same allocator for alloc and allocBig.
+例如，你可以在allocBig分配器中使用大RAM页(2 MB)来获得更快的压缩速度。需要注意的是Windows对于大RAM页的实现较差。alloc和allocBig也可以使用相同的分配器。
 
-#### ***Single-call Compression with callbacks***
+#### ***带有回调的单次压缩***
 
 Look example code:
   C/Util/Lzma/LzmaUtil.c
 
-When to use: file->file compressing
+使用场景: file->file compressing
 
-**1)** you must implement callback structures for interfaces:
+**1)** 你必须实现接口的回调函数:
 
 ```c
 ISeqInStream
@@ -406,7 +367,7 @@ static ISzAlloc g_Alloc = { SzAlloc, SzFree };
   outStream.file = outFile;
 ```
 
-**2)** Create CLzmaEncHandle object;
+**2)** 创建CLzmaEncHandle对象;
 
 ```c
   CLzmaEncHandle enc;
@@ -416,21 +377,21 @@ static ISzAlloc g_Alloc = { SzAlloc, SzFree };
     return SZ_ERROR_MEM;
 ```
 
-**3)** initialize CLzmaEncProps properties;
+**3)** 初始化CLzmaEncProps属性;
 
 ```c
   LzmaEncProps_Init(&props);
 ```
 
-  Then you can change some properties in that structure.
+之后你可以改变这个结构里的一些属性
 
-**4)** Send LZMA properties to LZMA Encoder
+**4)** 把上一个步骤设置的属性设置给LZMA Encoder
 
 ```c
   res = LzmaEnc_SetProps(enc, &props);
 ```
 
-**5)** Write encoded properties to header
+**5)** 将编码的属性写入header
 
 ```c
     Byte header[LZMA_PROPS_SIZE + 8];
@@ -445,28 +406,26 @@ static ISzAlloc g_Alloc = { SzAlloc, SzFree };
     MyWriteFileAndCheck(outFile, header, headerSize)
 ```
 
-**6)** Call encoding function:
+**6)** 调用编码函数:
 
 ```c
       res = LzmaEnc_Encode(enc, &outStream.funcTable, &inStream.funcTable, 
         NULL, &g_Alloc, &g_Alloc);
 ```
 
-**7)** Destroy LZMA Encoder Object
+**7)** 删除LZMA Encoder对象
 
 ```c
   LzmaEnc_Destroy(enc, &g_Alloc, &g_Alloc);
 ```
 
-If callback function return some error code, LzmaEnc_Encode also returns that code
-or it can return the code like SZ_ERROR_READ, SZ_ERROR_WRITE or SZ_ERROR_PROGRESS.
+如果回调函数返回某些错误码，LzmaEnc_Encode 也会返回该错误码或者返回类似于SZ_ERROR_READ, SZ_ERROR_WRITE or SZ_ERROR_PROGRESS。
 
 ---
 
-#### ***Single-call RAM->RAM Compression***
+#### ***单次调用 RAM->RAM 压缩***
 
-Single-call RAM->RAM Compression is similar to Compression with callbacks,
-but you provide pointers to buffers instead of pointers to stream callbacks:
+单词调用的 RAM->RAM 的压缩与设置回调的方式压缩类似, 但你需要提供指向buffers的指针而不是指向回调函数的指针。
 
 ```c
 SRes LzmaEncode(Byte *dest, SizeT *destLen, const Byte *src, SizeT srcLen,
@@ -480,9 +439,9 @@ Return code:
   SZ_ERROR_THREAD     - errors in multithreading functions (only for Mt version)
 ```
 
-Defines
+宏
 
-```bash
+```c
 _LZMA_SIZE_OPT          - Enable some optimizations in LZMA Decoder to get smaller executable code.
 _LZMA_PROB32            - It can increase the speed on some 32-bit CPUs, but memory usage for 
                         - some structures will be doubled in that case.
@@ -491,19 +450,15 @@ _LZMA_NO_SYSTEM_SIZE_T  - Define it if you don't want to use size_t type.
 _7ZIP_PPMD_SUPPPORT     - Define it if you don't want to support PPMD method in AMSI-C .7z decoder.
 ```
 
-C++ LZMA Encoder/Decoder
+C++版本的 LZMA Encoder/Decoder
 
-C++ LZMA code use COM-like interfaces. So if you want to use it, you can study basics of COM/OLE.
+C++版本的 LZMA 代码使用COM-LIKE接口。如果你想使用，可以了解下COM(Component Object Model)/OLE(Object Linking and Embedding)/DDE(Dynamic Data Exchange)的基础。
 
-C++ LZMA code is just wrapper over ANSI-C code.
+C++版本的 LZMA 代码部门仅仅只是将ANSI-C代码包装了.
 
-C++ Notes
-
-If you use some C++ code folders in 7-Zip (for example, C++ code for .7z handling),
-you must check that you correctly work with "new" operator.
-
-7-Zip can be compiled with MSVC 6.0 that doesn't throw "exception" from "new" operator.
-So 7-Zip uses "CPP\Common\NewHandler.cpp" that redefines "new" operator:
+注意：
+如果你使用7zip目录下的C++代码，你必须检查你正确地使用new 运算符
+MSVC 6.0 编译7-zip时，不会抛出 new 运算符的异常。所以7zip在 CPP\Common\NewHandler.cpp 重新定义了new operator
 
 ```cpp
 operator new(size_t size)
@@ -515,12 +470,11 @@ operator new(size_t size)
 }
 ```
 
-If you use MSCV that throws exception for "new" operator, you can compile without
-"NewHandler.cpp". So standard exception will be used. Actually some code of
-7-Zip catches any exception in internal code and converts it to HRESULT code.
-So you don't need to catch CNewException, if you call COM interfaces of 7-Zip.
+如果你使用的MSCV版本支持new运算符的异常抛出，你在编译7zip时可以忽略"NewHandler.cpp"。
+所以使用标准的异常。实际上7zip的部分代码捕获了任何异常都会转换为HRESULT码。如果你调用7zip的COM interface
+你不需要捕获CNewException.
 
-### ***Interface Examples:***
+### ***接口案例:***
 
 Look example code : C/Util/Lzma/LzmaUtil.c
 
@@ -538,10 +492,10 @@ Look example code : C/Util/Lzma/LzmaUtil.c
     d: decode file
 ```
 
-## Contribution
+## 参与贡献
 
 [https://sourceforge.net/p/sevenzip/_list/tickets](https://sourceforge.net/p/sevenzip/_list/tickets)
 
-## Repositories Involved
+## 相关仓
 
 [**developtools\hiperf**](https://gitee.com/openharmony/developtools_hiperf)
