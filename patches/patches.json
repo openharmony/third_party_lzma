@@ -1,0 +1,9 @@
+{
+    "patches": [
+        {
+            "project":"developtools_hiperf",
+            "path":"developtools/hiperf",
+            "pr_url":"https://gitee.com/openharmony/developtools_hiperf/pulls/359"
+        }
+    ]
+}
