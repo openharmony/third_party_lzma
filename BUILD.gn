@@ -78,6 +78,7 @@ config("lzma_config_public") {
     ]
     cflags = [
         "-D_7ZIP_ST",
+        "-D_7ZIP_AFFINITY_DISABLE",
         "-Wall",
         "-Werror",
         "-Wno-empty-body",
@@ -89,8 +90,14 @@ config("lzma_config_public") {
 
     if (target_cpu == "arm") {
         include_dirs += [ "Asm/arm" ]
+        cflags += [
+            "-march=armv8-a+crc",
+        ]
     } else if (target_cpu == "arm64") {
         include_dirs += [ "Asm/arm64" ]
+        cflags += [
+            "-march=armv8-a+crc",
+        ]
     } else if (target_cpu == "x64" || target_cpu == "x86_64") {
         include_dirs += [ "Asm/x86" ]
     }
