@@ -13,7 +13,7 @@
 
 #ifdef MY_CPU_X86_OR_AMD64
   #if defined(__clang__)
-    #if (__clang_major__ >= 8) // fix that check
+    #if (__clang_major__ >= 16) // fix that check
       #define USE_HW_SHA
       #ifndef __SHA__
         #define ATTRIB_SHA __attribute__((__target__("sha,ssse3")))
@@ -215,7 +215,7 @@ void MY_FAST_CALL Sha256_UpdateBlocks_HW(UInt32 state[8], const Byte *data, size
 #elif defined(MY_CPU_ARM_OR_ARM64)
 
   #if defined(__clang__)
-    #if (__clang_major__ >= 20) // fix that check
+    #if (__clang_major__ >= 16) // fix that check
       #define USE_HW_SHA
     #endif
   #elif defined(__GNUC__)

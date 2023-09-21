@@ -509,7 +509,7 @@ VAES_COMPAT_STUB (AesCtr_Code_HW)
 #elif defined(MY_CPU_ARM_OR_ARM64) && defined(MY_CPU_LE)
 
   #if defined(__clang__)
-    #if (__clang_major__ >= 20) // fix that check
+    #if (__clang_major__ >= 16) // fix that check
       #define USE_HW_AES
     #endif
   #elif defined(__GNUC__)
