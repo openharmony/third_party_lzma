@@ -20,7 +20,7 @@ This code is based on public domain code from Wei Dai's Crypto++ library. */
       #define _SHA_SUPPORTED
     #endif
   #elif defined(__clang__)
-    #if (__clang_major__ >= 20) // fix that check
+    #if (__clang_major__ >= 16) // fix that check
       #define _SHA_SUPPORTED
     #endif
   #elif defined(__GNUC__)
@@ -38,7 +38,7 @@ This code is based on public domain code from Wei Dai's Crypto++ library. */
       #define _SHA_SUPPORTED
     #endif
   #elif defined(__clang__)
-    #if (__clang_major__ >= 20) // fix that check
+    #if (__clang_major__ >= 16) // fix that check
       #define _SHA_SUPPORTED
     #endif
   #elif defined(__GNUC__)
