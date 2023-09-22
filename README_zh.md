@@ -6,7 +6,7 @@ LZMA 是著名的LZ77压缩算法的改良版本, 最大化地提高了压缩比
 
 LZMA2 基于 LZMA, 在压缩过程中提供了更好的多线程支持, 和其他改进优化。
 
-7z 是一种数据压缩和文件档案的格式, 是7zip软件的主要文件格式(www.7-zip.org)。
+7z 是一种数据压缩和文件档案的格式, 是7zip软件的主要文件格式 [**7z官网**](https://www.7-zip.org)。
 7z 格式支持不同的压缩方式: LZMA, LZMA2 和其他， 同时也支持基于AES-256的对称加密。
 
 XZ 是一种使用LZMA2数据压缩的文件格式, XZ格式带有额外的特性: SHA/CRC数据校验, 用于提升压缩比率的filters, 拆分blocks和streams。
@@ -122,7 +122,7 @@ Asmc Macro Assembler 和 JWasm 在Linux 系统上都支持MASM语法，但JWasm 
 
 ### ***构建命令***
 
-目录中有2两个主要文件用于编译
+目录中有两个主要文件用于编译
   makefile        - 使用nmake命令编译Windows版本的7zip
   makefile.gcc    - 使用make命令编译Linux/macOs版本的7zip
 
@@ -187,7 +187,7 @@ LZMA decoding的内存要求
 
 ### ***如何解压缩***
 
-LZMA Decoder (ANSI-C version) 支持一下两种接口:
+LZMA Decoder (ANSI-C version) 支持以下两种接口:
 
 **1)** 单次调用: LzmaDecode
 
@@ -252,7 +252,7 @@ You can use p = p; operator to disable compiler warnings.
     SZ_ERROR_INPUT_EOF - It needs more bytes in input buffer (src).
 ```
 
-如果LZMA decoder 到达在输出缓冲区上限前看到了end_marker, 返回OK,同时输出的destLen的值会比输出缓冲区的上限小。
+如果LZMA decoder 在输出缓冲区上限前到达并看到了end_marker, 返回OK,同时输出的destLen的值会比输出缓冲区的上限小。
 
 你可以在完全解压缩后使用多重检查数据的完整性:
 
@@ -346,7 +346,7 @@ Look example code:
 
 使用场景: file->file compressing
 
-**1)** 你必须实现接口的回调函数:
+**1)** 你必须实现接口的回调函数
 
 ```c
 ISeqInStream
@@ -367,7 +367,7 @@ static ISzAlloc g_Alloc = { SzAlloc, SzFree };
   outStream.file = outFile;
 ```
 
-**2)** 创建CLzmaEncHandle对象;
+**2)** 创建CLzmaEncHandle对象
 
 ```c
   CLzmaEncHandle enc;
@@ -377,7 +377,7 @@ static ISzAlloc g_Alloc = { SzAlloc, SzFree };
     return SZ_ERROR_MEM;
 ```
 
-**3)** 初始化CLzmaEncProps属性;
+**3)** 初始化CLzmaEncProps属性
 
 ```c
   LzmaEncProps_Init(&props);
@@ -406,7 +406,7 @@ static ISzAlloc g_Alloc = { SzAlloc, SzFree };
     MyWriteFileAndCheck(outFile, header, headerSize)
 ```
 
-**6)** 调用编码函数:
+**6)** 调用编码函数
 
 ```c
       res = LzmaEnc_Encode(enc, &outStream.funcTable, &inStream.funcTable, 
@@ -425,7 +425,7 @@ static ISzAlloc g_Alloc = { SzAlloc, SzFree };
 
 #### ***单次调用 RAM->RAM 压缩***
 
-单词调用的 RAM->RAM 的压缩与设置回调的方式压缩类似, 但你需要提供指向buffers的指针而不是指向回调函数的指针。
+单次调用，RAM->RAM 压缩与设置回调的方式压缩类似, 但你需要提供指向buffers的指针而不是指向回调函数的指针。
 
 ```c
 SRes LzmaEncode(Byte *dest, SizeT *destLen, const Byte *src, SizeT srcLen,
@@ -471,8 +471,7 @@ operator new(size_t size)
 ```
 
 如果你使用的MSCV版本支持new运算符的异常抛出，你在编译7zip时可以忽略"NewHandler.cpp"。
-所以使用标准的异常。实际上7zip的部分代码捕获了任何异常都会转换为HRESULT码。如果你调用7zip的COM interface
-你不需要捕获CNewException.
+所以使用标准的异常。实际上7zip的部分代码捕获的任何异常都会转换为HRESULT码。如果你调用7zip的COM interface 就不需要捕获CNewException.
 
 ### ***接口案例:***
 
