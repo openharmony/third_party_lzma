@@ -357,10 +357,10 @@ static BOOL WINAPI FileTimeToLocalFileTime(const FILETIME *fileTime, FILETIME *l
 }
 
 static const UInt32 kNumTimeQuantumsInSecond = 10000000;
-static const UInt32 kFileTimeStartYear = 1601;
-static const UInt32 kUnixTimeStartYear = 1970;
+#define K_FILE_TIME_START_YEAR 1601
+#define K_UNIX_TIME_START_YEAR 1970
 static const UInt64 kUnixTimeOffset =
-    (UInt64)60 * 60 * 24 * (89 + 365 * (kUnixTimeStartYear - kFileTimeStartYear));
+    (UInt64)60 * 60 * 24 * (89 + 365 * (K_UNIX_TIME_START_YEAR - K_FILE_TIME_START_YEAR));
 
 static Int64 Time_FileTimeToUnixTime64(const FILETIME *ft)
 {
