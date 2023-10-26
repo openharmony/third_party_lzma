@@ -10,141 +10,127 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import("//build/ohos.gni")
 import("//build/config/arm.gni")
+import("//build/ohos.gni")
 import("./lzma.gni")
 
 config("lzma_config_common") {
-    include_dirs = [
-        "C",
-    ]
-    cflags = [
-        "-D_7ZIP_ST",
-        "-Wall",
-        "-Werror",
-        "-Wno-empty-body",
-        "-Wno-enum-conversion",
-        "-Wno-logical-op-parentheses",
-        "-Wno-self-assign",
-    ]
-    visibility = [ ":*" ]
+  include_dirs = [ "C" ]
+  cflags = [
+    "-D_7ZIP_ST",
+    "-Wall",
+    "-Werror",
+    "-Wno-empty-body",
+    "-Wno-enum-conversion",
+    "-Wno-logical-op-parentheses",
+    "-Wno-self-assign",
+  ]
+  visibility = [ ":*" ]
 }
 
 config("lzma_config_host") {
-    defines = []
-    defines += [ "target_cpu=${target_cpu}" ]
-    defines += [ "host_toolchain=${host_toolchain}" ]
-    defines += [ "current_toolchain=${current_toolchain}" ]
-    defines += [ "default_toolchain=${default_toolchain}" ]
+  defines = []
+  defines += [ "target_cpu=${target_cpu}" ]
+  defines += [ "host_toolchain=${host_toolchain}" ]
+  defines += [ "current_toolchain=${current_toolchain}" ]
+  defines += [ "default_toolchain=${default_toolchain}" ]
 }
 
 # on device
 ohos_source_set("lzma_source_arm") {
+  configs = [ ":lzma_config_common" ]
+  public_configs = [ ":lzma_config_common" ]
 
-    configs = [ ":lzma_config_common" ]
-    public_configs = [
-        ":lzma_config_common",
-    ]
+  include_dirs = [ "Asm/arm" ]
+  cflags = [ "-march=armv7-a" ]
 
-    include_dirs = [ "Asm/arm" ]
-    cflags = [ "-march=armv7-a" ]
-
-    sources = common_c_source
-    sources += arm_asm_source
+  sources = common_c_source
 }
 
 # on device
 ohos_source_set("lzma_source_arm64") {
+  configs = [ ":lzma_config_common" ]
+  public_configs = [ ":lzma_config_common" ]
 
-    configs = [ ":lzma_config_common" ]
-    public_configs = [
-        ":lzma_config_common",
-    ]
+  include_dirs = [ "Asm/arm64" ]
+  cflags = [ "-march=armv8-a+crc" ]
 
-    include_dirs = [ "Asm/arm64" ]
-    cflags = [ "-march=armv8-a+crc" ]
-
-    sources = common_c_source
-    sources += arm64_asm_source
+  sources = common_c_source
+  sources += arm64_asm_source
 }
 
 # on host
-ohos_source_set("lzma_source_x86") {
-    configs = [
-        ":lzma_config_common",
-        ":lzma_config_host"
-    ]
-    public_configs = [
-        ":lzma_config_common",
-        ":lzma_config_host"
-    ]
+ohos_source_set("lzma_source_x86_host") {
+  configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
+  public_configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
 
-    include_dirs = [ "Asm/x86" ]
+  include_dirs = [ "Asm/x86" ]
 
-    sources = common_c_source
-    sources += x86_asm_source
+  sources = common_c_source
 }
 
 #on host
 ohos_source_set("lzma_source_arm64_host") {
-    configs = [
-        ":lzma_config_common",
-        ":lzma_config_host"
-    ]
-    public_configs = [
-        ":lzma_config_common",
-        ":lzma_config_host"
-    ]
+  configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
+  public_configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
 
-    include_dirs = [ "Asm/arm64" ]
+  include_dirs = [ "Asm/arm64" ]
 
-    sources = common_c_source
-    sources += arm64_asm_source
+  sources = common_c_source
+  sources += arm64_asm_source
 }
 
 # on device
 ohos_shared_library("lzma_shared") {
+  public_configs = [ ":lzma_config_common" ]
 
-    public_configs = [
-        ":lzma_config_common"
-    ]
+  if (target_cpu == "arm") {
+    deps = [ ":lzma_source_arm" ]
+  } else if (target_cpu == "arm64") {
+    deps = [ ":lzma_source_arm64" ]
+  }
 
-    if (target_cpu == "arm") {
-        deps = [ ":lzma_source_arm" ]
-    } else if (target_cpu == "arm64") {
-        deps = [ ":lzma_source_arm64" ]
-    }
-
-    output_name = "lzma"
-    install_images = [
-        "system",
-        "updater"
-    ]
-    part_name = "lzma"
-    subsystem_name = "thirdparty"
+  output_name = "lzma"
+  install_images = [
+    "system",
+    "updater",
+  ]
+  part_name = "lzma"
+  subsystem_name = "thirdparty"
 }
 
 #on host
 ohos_static_library("lzma_static") {
+  public_configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
 
-    public_configs = [
-        ":lzma_config_common",
-        ":lzma_config_host"
-    ]
+  if (current_cpu == "arm64") {
+    deps = [ ":lzma_source_arm64_host" ]
+  } else if (current_cpu == "x86_64" || current_cpu == "x64") {
+    deps = [ ":lzma_source_x86_host" ]
+  }
 
-    if (target_cpu == "arm64") {
-        deps = [ ":lzma_source_arm64_host" ]
-    } else if (target_cpu == "x86_64") {
-        deps = [ ":lzma_source_x86" ]
-    }
-
-    part_name = "lzma"
-    subsystem_name = "thirdparty"
+  part_name = "lzma"
+  subsystem_name = "thirdparty"
 }
 
 group("lzma") {
-    deps = [
-        ":lzma_shared",
-        ":lzma_static"
-    ]
+  deps = [
+    ":lzma_shared",
+    ":lzma_static",
+  ]
 }
