@@ -46,6 +46,12 @@ ohos_source_set("lzma_source_arm") {
 
   sources = common_c_source
 }
+ohos_source_set("lzma_source_riscv64") {
+  configs = [ ":lzma_config_common" ]
+  public_configs = [ ":lzma_config_common" ]
+  cflags = [ "-march=rv64gc" ]
+  sources = common_c_source
+}
 
 # on device
 ohos_source_set("lzma_source_arm64") {
@@ -92,6 +98,20 @@ ohos_source_set("lzma_source_arm64_host") {
   sources += arm64_asm_source
 }
 
+#on host
+ohos_source_set("lzma_source_riscv64_host") {
+  configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
+  public_configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
+
+  sources = common_c_source
+}
+
 # on device
 ohos_shared_library("lzma_shared") {
   public_configs = [ ":lzma_config_common" ]
@@ -100,6 +120,8 @@ ohos_shared_library("lzma_shared") {
     deps = [ ":lzma_source_arm" ]
   } else if (target_cpu == "arm64") {
     deps = [ ":lzma_source_arm64" ]
+  } else if (target_cpu == "riscv64") {
+    deps = [ ":lzma_source_riscv64" ]
   }
 
   output_name = "lzma"
@@ -122,6 +144,8 @@ ohos_static_library("lzma_static") {
     deps = [ ":lzma_source_arm64_host" ]
   } else if (current_cpu == "x86_64" || current_cpu == "x64") {
     deps = [ ":lzma_source_x86_host" ]
+  } else if (current_cpu == "riscv64") {
+    deps = [ ":lzma_source_riscv64_host" ]
   }
 
   part_name = "lzma"
