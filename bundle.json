@@ -25,7 +25,22 @@
         },
         "build": {
             "sub_component": [],
-            "inner_kits": [],
+            "inner_kits": [
+                {
+                    "name": "//third_party/lzma:lzma_shared",
+                    "header": {
+                      "header_files": [],
+                      "header_base": "//third_party/lzma"
+                    }
+                },
+                {
+                    "name": "//third_party/lzma:lzma_static",
+                    "header": {
+                      "header_files": [],
+                      "header_base": "//third_party/lzma"
+                    }
+                }
+            ],
             "test": []
         }
     }
