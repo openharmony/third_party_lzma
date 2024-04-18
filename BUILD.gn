@@ -17,13 +17,15 @@ import("./lzma.gni")
 config("lzma_config_common") {
   include_dirs = [ "C" ]
   cflags = [
-    "-D_7ZIP_ST",
+    "-D_IS_TRY_USE_HW_SHA=0",
+    "-DZ7_AFFINITY_DISABLE",
     "-Wall",
     "-Werror",
     "-Wno-empty-body",
     "-Wno-enum-conversion",
     "-Wno-logical-op-parentheses",
     "-Wno-self-assign",
+    "-Wno-implicit-function-declaration",
   ]
   visibility = [ ":*" ]
 }
@@ -43,6 +45,7 @@ ohos_source_set("lzma_source_arm") {
 
   include_dirs = [ "Asm/arm" ]
   cflags = [ "-march=armv7-a" ]
+  ldflags = [ "-lpthread" ]
 
   sources = common_c_source
 }
