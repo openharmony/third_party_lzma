@@ -32,7 +32,7 @@
                 <policyitem type="filename" name="LICENSE" path="projectroot" rule="may" group="defaultGroup" filefilter="licenseFileNamePolicyFilter" desc=""/>
                 <policyitem type="filename" name="README.OpenSource" path="projectroot" rule="must" group="defaultGroup" filefilter="readmeOpenSourcefileNamePolicyFilter" desc=""/>
                 <policyitem type="filetype" name="!binary" path=".*" rule="must" group="defaultGroup" filefilter="binaryFileTypePolicyFilter" desc=""/>
-                <policyitem type="filetype" name="!archive" path=".*" rule="must" group="defaultGroup" filefilter="binaryFileTypePolicyFilter" desc=""/>				
+                <policyitem type="filetype" name="!archive" path=".*" rule="must" group="defaultGroup" filefilter="binaryFileTypePolicyFilter" desc=""/>
             </policy>
 
         </policylist>
@@ -79,15 +79,20 @@
             </filefilter>
             <filefilter name="readmeOpenSourcefileNamePolicyFilter" desc="">
             </filefilter>
-            <filefilter name="binaryFileTypePolicyFilter" desc="">
+            <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binary file policies">
+                <filteritem type="filepath" name="CPP/7zip/Bundles/SFXCon/7z.ico" desc="self developed ico"/>
+                <filteritem type="filepath" name="CPP/7zip/Archive/Icons/7z.ico" desc="self developed ico"/>
+                <filteritem type="filepath" name="CPP/7zip/Bundles/SFXWin/7z.ico" desc="self developed ico"/>
+                <filteritem type="filepath" name="C/Util/SfxSetup/setup.ico" desc="self developed ico"/>
+                <filteritem type="filepath" name="CPP/7zip/Bundles/SFXSetup/setup.ico" desc="self developed ico"/>
             </filefilter>
         </filefilterlist>
-        <licensematcherlist>     
+        <licensematcherlist>
             <licensematcher name="Public domain" desc="">
                 <licensetext name="
                     *Igor Pavlov : Public domain*
                 " desc=""/>
-            </licensematcher>        
+            </licensematcher>
             <licensematcher name="Khronos License" desc="License for opencl">
                 <licensetext name="
                  * Permission is hereby granted, free of charge, to any person obtaining a
