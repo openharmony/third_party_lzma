@@ -1,0 +1,13 @@
+{
+  global:
+    extern "C" {
+      CrcGenerateTable*;
+      Crc64GenerateTable*;
+      XzUnpacker_Construct*;
+      XzUnpacker_Code*;
+      XzUnpacker_Free*;
+      XzUnpacker_IsStreamWasFinished*;
+    };
+  local:
+    *;
+};
