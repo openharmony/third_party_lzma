@@ -126,6 +126,7 @@ ohos_shared_library("lzma_shared") {
   } else if (target_cpu == "riscv64") {
     deps = [ ":lzma_source_riscv64" ]
   }
+  version_script = "liblzma.map"
   innerapi_tags = [
     "chipsetsdk_indirect",
     "platformsdk_indirect",
