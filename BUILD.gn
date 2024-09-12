@@ -58,6 +58,7 @@ ohos_source_set("lzma_source_riscv64") {
 
 # on device
 ohos_source_set("lzma_source_arm64") {
+  branch_protector_ret = "pac_ret"
   configs = [ ":lzma_config_common" ]
   public_configs = [ ":lzma_config_common" ]
 
@@ -117,6 +118,7 @@ ohos_source_set("lzma_source_riscv64_host") {
 
 # on device
 ohos_shared_library("lzma_shared") {
+  branch_protector_ret = "pac_ret"
   public_configs = [ ":lzma_config_common" ]
 
   if (target_cpu == "arm") {
