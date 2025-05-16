@@ -17,7 +17,6 @@ import("./lzma.gni")
 config("lzma_config_common") {
   include_dirs = [ "C" ]
   cflags = [
-    "-D_IS_TRY_USE_HW_SHA=0",
     "-DZ7_AFFINITY_DISABLE",
     "-Wall",
     "-Werror",
