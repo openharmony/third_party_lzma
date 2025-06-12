@@ -128,7 +128,7 @@ ohos_shared_library("lzma_shared") {
     deps = [ ":lzma_source_riscv64" ]
   }
   innerapi_tags = [
-    "chipsetsdk_indirect",
+    "chipsetsdk_sp_indirect",
     "platformsdk_indirect",
   ]
   output_name = "lzma"
