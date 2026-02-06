@@ -69,6 +69,20 @@ ohos_source_set("lzma_source_arm64") {
 }
 
 # on host
+ohos_source_set("lzma_source_arm_host") {
+  configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
+  public_configs = [
+    ":lzma_config_common",
+    ":lzma_config_host",
+  ]
+
+  sources = common_c_source
+}
+
+# on host
 ohos_source_set("lzma_source_x86_host") {
   configs = [
     ":lzma_config_common",
@@ -147,7 +161,9 @@ ohos_static_library("lzma_static") {
     ":lzma_config_host",
   ]
 
-  if (current_cpu == "arm64") {
+  if (current_cpu == "arm") {
+    deps = [ ":lzma_source_arm_host" ]
+  } else if (current_cpu == "arm64") {
     deps = [ ":lzma_source_arm64_host" ]
   } else if (current_cpu == "x86_64" || current_cpu == "x64") {
     deps = [ ":lzma_source_x86_host" ]
