@@ -111,6 +111,7 @@ ohos_source_set("lzma_source_x86_host") {
 
 #on host
 ohos_source_set("lzma_source_arm64_host") {
+  branch_protector_ret = "pac_ret"
   configs = [
     ":lzma_config_common",
     ":lzma_config_host",
@@ -170,6 +171,7 @@ ohos_shared_library("lzma_shared") {
 
 #on host
 ohos_static_library("lzma_static") {
+  branch_protector_ret = "pac_ret"
   public_configs = [
     ":lzma_config_common",
     ":lzma_config_host",
