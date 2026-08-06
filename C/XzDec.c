@@ -604,6 +604,12 @@ static SRes MixCoder_Code(CMixCoder *p,
       
     srcLen2 = srcLenOrig;
     destLen2 = destLenOrig;
+    if (p->numCoders != 1)
+    {
+      if (destLen2 < p->outWritten)
+        return SZ_ERROR_FAIL;
+      destLen2 -= p->outWritten;
+    }
     
     {
       IStateCoder *coder = &p->coders[0];
